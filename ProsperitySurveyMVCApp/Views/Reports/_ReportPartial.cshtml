@@ -1,0 +1,24 @@
+﻿@model ProsperitySurveyMVCApp.Models.Report
+<h2>Reports</h2>
+
+@using (Html.BeginForm("Generate", "Reports", FormMethod.Post, new { @class = "form-inline" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <label for="SurveyId">Survey</label>
+        @Html.DropDownList("SurveyId", null, htmlAttributes: new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ReportData)
+        @Html.EnumDropDownListFor(model => model.ReportData, htmlAttributes: new { @class = "form-control" })
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="View Report" class="btn btn-primary" />
+        </div>
+    </div>
+
+
+}

@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Home";
+
+
+<h2>Surveys</h2>
+
+    if (ViewBag.SurveyCount == 0)
+    {
+        <div class="alert alert-danger">
+            No Survey is currently assigned to you.
+        </div>
+    }
+    else
+    {
+        <table class="table table-striped table-hover">
+            <tr>
+                <th>
+                    Survey
+                </th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.SurveyName
+                    </td>
+                    <td>
+                        @(item.Completed ? "Completed" : "On Going")
+                    </td>
+                    <td>
+                        @if (!item.Completed)
+                        {
+                            <button class="btn btn-default">@Html.ActionLink("Select", "SelectSurvey", new { id = item.Id })</button>
+                        }
+
+
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+
+}

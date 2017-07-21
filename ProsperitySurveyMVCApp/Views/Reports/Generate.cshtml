@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewBag.Title = "Reports";
+
+
+    @Html.Partial("_ReportPartial")
+    <hr />
+    <div class="row">
+        <div class="row">
+
+            <table class="table">
+                <tr>
+                    <th>Baranggay Population</th>
+                    <td>@ViewBag.Population</td>
+                    
+                </tr>
+                <tr>
+                    <th>Number of Families</th>
+                    <td>@ViewBag.FamilyCount</td>
+
+                </tr>
+            </table>
+
+        </div>
+    </div>
+    if (ViewBag.GraphTitle == "Age")
+    {
+        <div class="row">
+
+            <table class="table">
+                <tr>
+                    <th>Age Bracket</th>
+                    <th>Number</th>
+                    <th>Percentage</th>
+                </tr>
+                <tr>
+                    <td>0 to 14</td>
+                    <td>@ViewBag.Age_0_To_14.Item1</td>
+                    <td>@ViewBag.Age_0_To_14.Item2</td>
+                </tr>
+                <tr>
+                    <td>15 to 24</td>
+                    <td>@ViewBag.Age_15_To_24.Item1</td>
+                    <td>@ViewBag.Age_15_To_24.Item2</td>
+                </tr>
+                <tr>
+                    <td>25 to 59</td>
+                    <td>@ViewBag.Age_25_To_59.Item1</td>
+                    <td>@ViewBag.Age_25_To_59.Item2</td>
+                </tr>
+                <tr>
+                    <td>60 above</td>
+                    <td>@ViewBag.Age_60.Item1</td>
+                    <td>@ViewBag.Age_60.Item2</td>
+                </tr>
+            </table>
+
+        </div>
+    }
+    <div class="row">
+        <div id="chartContainer"></div>
+    </div>
+
+
+}
+
+@section Scripts {
+
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+    <script type="text/javascript">
+        var result = @Html.Raw(ViewBag.DataPoints);
+        var graphType = "@Html.Raw(ViewBag.GraphType)";
+        var graphTitle = "@Html.Raw(ViewBag.GraphTitle)";
+        var graphShowLegend = @Html.Raw(ViewBag.GraphShowLegend);
+        var gender = ["Male","Female"];
+        var showLegend = (graphShowLegend==1)?true:false;
+        var dataPoints =[];
+        for(var i = 0; i < result.length; i++)
+        {
+            if(graphTitle == "Gender"){
+
+                dataPoints.push({ y: result[i].y,indexLabel: gender[result[i].x],legendText:gender[result[i].x] });
+            }
+            else
+            {
+                dataPoints.push({ y: result[i].y,x: result[i].x });
+            }
+
+        }
+        console.log(dataPoints);
+        var chartData = [
+            {
+                type: graphType,
+                showInLegend: showLegend,
+                dataPoints: dataPoints,
+            }
+        ];
+        console.log(chartData);
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+                theme: "theme2",
+                zoomEnabled: true,
+                animationEnabled: true,
+                title: {
+                    text: graphTitle
+                },
+                data: chartData
+            });
+            chart.render();
+        }
+    </script>
+}

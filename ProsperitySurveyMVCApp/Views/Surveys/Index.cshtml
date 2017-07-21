@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ProsperitySurveyMVCApp.Models.Survey>
+
+@{
+    ViewBag.Title = "Surveys";
+}
+
+<h2>Surveys</h2>
+
+<p>
+    <button class="btn btn-default">@Html.ActionLink("Create New", "Create")</button>
+    <button class="btn btn-default">@Html.ActionLink("Assign Survey", "AssignSurvey")</button>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Location.Baranggay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SurveyDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SurveyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SurveyDateFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SurveyDateTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Completed)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location.Baranggay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SurveyDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SurveyName)
+        </td>
+        <td>
+            @item.SurveyDateFrom.ToString("MMMM dd, yyyy")
+        </td>
+        <td>
+            @item.SurveyDateTo.ToString("MMMM dd, yyyy")
+        </td>
+        <td>
+            @(item.Completed? "Yes" : "No")
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) 
+        </td>
+    </tr>
+}
+
+</table>

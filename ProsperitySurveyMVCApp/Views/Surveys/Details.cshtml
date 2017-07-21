@@ -1,0 +1,66 @@
+﻿@model ProsperitySurveyMVCApp.Models.Survey
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Survey</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.Baranggay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location.Baranggay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SurveyDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SurveyDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SurveyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SurveyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SurveyDateFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SurveyDateFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SurveyDateTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SurveyDateTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Completed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Completed)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

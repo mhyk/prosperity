@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ProsperitySurveyMVCApp.Models.Family>
+
+@{
+    ViewBag.Title = "Families";
+}
+
+<h2>Families</h2>
+
+<p>
+    <button class="btn btn-default">@Html.ActionLink("Add New Family", "NewFamily")</button>
+
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FamilyName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FamilyName)
+        </td>
+        <td>
+            @Html.ActionLink("Select", "AddMember", new { id=item.Id }) |
+            @Html.ActionLink("Details", "FamilyDetails", new { id = item.Id })
+        </td>
+    </tr>
+}
+
+</table>

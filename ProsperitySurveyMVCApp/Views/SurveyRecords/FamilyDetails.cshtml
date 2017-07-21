@@ -1,0 +1,88 @@
+﻿@model IEnumerable<ProsperitySurveyMVCApp.Models.FamilyMember>
+
+@{
+    ViewBag.Title = "FamilyDetails";
+}
+
+<h2>@ViewBag.FamilyName Family Details</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>        
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Age)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CivilStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Employed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EducationalAttainment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Income)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IncomeType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsFamilyHead)
+        </th>
+        
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>        
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+             @item.DateOfBirth.ToString("MMMM dd, yyyy")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Age)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CivilStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gender)
+        </td>
+        <td>
+            @(item.Employed?"Yes":"No")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EducationalAttainment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Income)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IncomeType)
+        </td>
+        <td>
+            @(item.IsFamilyHead ? "Yes" : "No")
+        </td>        
+    </tr>
+}
+
+</table>
