@@ -50,22 +50,22 @@ namespace ProsperitySurveyMVCApp.Controllers
             ViewBag.GraphType = "column";
             ViewBag.GraphShowLegend = 0;
 
-            var population = (from member in db.FamilyMembers
+            var members = (from member in db.FamilyMembers
                               join family in db.Families
                               on member.FamilyId equals family.Id
                               join survey in db.Surveys
                               on family.SurveyId equals survey.Id
                               where survey.Id == surveyId
                               select new { member });
-
+            int population = members.Count();
             /*var familyCount = (from family in db.Families
                                join survey in db.Surveys
                                on family.SurveyId equals survey.Id
                                where survey.Id == surveyId
                                select new { family }).Count();*/
 
-            ViewBag.Population = population.Count();
-            ViewBag.FamilyCount = population.GroupBy(p=>p.member.FamilyId).Count();
+            ViewBag.Population = population;
+            ViewBag.FamilyCount = members.GroupBy(p=>p.member.FamilyId).Count();
 
             if (reportData.ReportData == ReportData.Income)
             {
