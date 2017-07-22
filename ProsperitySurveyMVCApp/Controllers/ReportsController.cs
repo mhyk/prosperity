@@ -100,6 +100,7 @@ namespace ProsperitySurveyMVCApp.Controllers
                 ViewBag.Age_25_To_59 = Tuple.Create(income_16_To_30, ComputePercentage(population, income_16_To_30));
                 ViewBag.Age_60 = Tuple.Create(income_30, ComputePercentage(population, income_30));
 
+                ViewBag.ReportTitle = "Income Bracket";
                 ViewBag.GraphTitle = "Income";
                 ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
             }
@@ -128,6 +129,7 @@ namespace ProsperitySurveyMVCApp.Controllers
                 ViewBag.Age_25_To_59 = Tuple.Create(age_25_To_59, ComputePercentage(population, age_25_To_59));
                 ViewBag.Age_60 = Tuple.Create(age_60, ComputePercentage(population, age_60));
 
+                ViewBag.ReportTitle = "Income Bracket";
                 ViewBag.GraphTitle = "Age";
                 ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
             }
