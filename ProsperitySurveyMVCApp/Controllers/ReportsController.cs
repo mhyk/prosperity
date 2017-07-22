@@ -51,14 +51,14 @@ namespace ProsperitySurveyMVCApp.Controllers
             ViewBag.GraphShowLegend = 0;
 
             var population = (from member in db.FamilyMembers
-                               join family in db.Families
-                               on member.FamilyId equals family.Id
-                               join survey in db.Surveys
-                               on family.SurveyId equals survey.Id
-                               where survey.Id == surveyId
-                               select new { member }).Count();
+                              join family in db.Families
+                              on member.FamilyId equals family.Id
+                              join survey in db.Surveys
+                              on family.SurveyId equals survey.Id
+                              where survey.Id == surveyId
+                              select new { member }).Count();
 
-            var familyCount = (from family in db.Families                               
+            var familyCount = (from family in db.Families
                                join survey in db.Surveys
                                on family.SurveyId equals survey.Id
                                where survey.Id == surveyId
@@ -69,18 +69,37 @@ namespace ProsperitySurveyMVCApp.Controllers
 
             if (reportData.ReportData == ReportData.Income)
             {
-                var dataPoints = from member in db.FamilyMembers
-                                 join family in db.Families
-                                 on member.FamilyId equals family.Id
-                                 join survey in db.Surveys
-                                 on family.SurveyId equals survey.Id
-                                 where survey.Id == surveyId
-                                 group member by member.FamilyId into grpFamily
+                var familyIncome = from member in db.FamilyMembers
+                                   join family in db.Families
+                                   on member.FamilyId equals family.Id
+                                   join survey in db.Surveys
+                                   on family.SurveyId equals survey.Id
+                                   where survey.Id == surveyId
+                                   group member by member.FamilyId into grpFamily
+                                   select new
+                                   {
+                                       Id = grpFamily.Key,
+                                       Income = grpFamily.Sum(f => f.Income),
+                                   };
+
+                var dataPoints = from income in familyIncome
+                                 group income by income.Income into grpIncome
                                  select new
                                  {
-                                     Income = grpFamily.Sum(f => f.Income),
-
+                                     x = grpIncome.Key,
+                                     y = grpIncome.Count()
                                  };
+
+                int income_0_To_8 = familyIncome.Where(f => f.Income <= 8000).Count();
+                int income_8_To_16 = familyIncome.Where(f => f.Income > 8000 && f.Income <= 16000).Count();
+                int income_16_To_30 = familyIncome.Where(f => f.Income > 16000 && f.Income <= 30000).Count();
+                int income_30 = familyIncome.Where(f => f.Income > 30000).Count();
+
+                ViewBag.Age_0_To_14 = Tuple.Create(income_0_To_8, ComputePercentage(population, income_0_To_8));
+                ViewBag.Age_15_To_24 = Tuple.Create(income_8_To_16, ComputePercentage(population, income_8_To_16));
+                ViewBag.Age_25_To_59 = Tuple.Create(income_16_To_30, ComputePercentage(population, income_16_To_30));
+                ViewBag.Age_60 = Tuple.Create(income_30, ComputePercentage(population, income_30));
+
                 ViewBag.GraphTitle = "Income";
                 ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
             }
@@ -103,11 +122,6 @@ namespace ProsperitySurveyMVCApp.Controllers
                 int age_15_To_24 = GetAgeCount(surveyId, 24);
                 int age_25_To_59 = GetAgeCount(surveyId, 59);
                 int age_60 = GetAgeCount(surveyId, 60);
-
-                /*ViewBag.Age_0_To_14 = new { Count = age_0_To_14, Percentage = ComputePercentage(population,age_0_To_14) };
-                ViewBag.Age_15_To_24 = new { Count = age_15_To_24, Percentage = ComputePercentage(population, age_15_To_24) };
-                ViewBag.Age_25_To_59 = new { Count = age_25_To_59, Percentage = ComputePercentage(population, age_25_To_59) };
-                ViewBag.Age_60 = new { Count = age_60, Percentage = ComputePercentage(population, age_60) };*/
 
                 ViewBag.Age_0_To_14 = Tuple.Create(age_0_To_14, ComputePercentage(population, age_0_To_14));
                 ViewBag.Age_15_To_24 = Tuple.Create(age_15_To_24, ComputePercentage(population, age_15_To_24));
