@@ -56,16 +56,16 @@ namespace ProsperitySurveyMVCApp.Controllers
                               join survey in db.Surveys
                               on family.SurveyId equals survey.Id
                               where survey.Id == surveyId
-                              select new { member }).Count();
+                              select new { member });
 
-            var familyCount = (from family in db.Families
+            /*var familyCount = (from family in db.Families
                                join survey in db.Surveys
                                on family.SurveyId equals survey.Id
                                where survey.Id == surveyId
-                               select new { family }).Count();
+                               select new { family }).Count();*/
 
-            ViewBag.Population = population;
-            ViewBag.FamilyCount = familyCount;
+            ViewBag.Population = population.Count();
+            ViewBag.FamilyCount = population.GroupBy(p=>p.member.FamilyId).Count();
 
             if (reportData.ReportData == ReportData.Income)
             {
