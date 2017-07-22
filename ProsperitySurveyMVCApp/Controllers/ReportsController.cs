@@ -13,19 +13,10 @@ namespace ProsperitySurveyMVCApp.Controllers
     {
 
         private ProsperityContext db = new ProsperityContext();
-        // GET: Reports
+        
         public ActionResult Index()
         {
-            /*List<DataPoint> dataPoints = new List<DataPoint>{
-                new DataPoint(10, 22),
-                new DataPoint(20, 36),
-                new DataPoint(30, 42),
-                new DataPoint(40, 51),
-                new DataPoint(50, 46),
-            };
-
-            ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);*/
-            var survey = db.Surveys.Where(s => s.Completed == false);
+            var survey = db.Surveys.Where(s => s.Completed == true);
             ViewBag.SurveyCount = survey.Count();
             ViewBag.SurveyId = new SelectList(survey, "Id", "SurveyName");
             return View();
@@ -40,7 +31,7 @@ namespace ProsperitySurveyMVCApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Generate(FormCollection formData)
         {
-            var surveys = db.Surveys.Where(s => s.Completed == false);
+            var surveys = db.Surveys.Where(s => s.Completed == true);
             ViewBag.SurveyCount = surveys.Count();
             ViewBag.SurveyId = new SelectList(surveys, "Id", "SurveyName");
 
@@ -58,11 +49,7 @@ namespace ProsperitySurveyMVCApp.Controllers
                               where survey.Id == surveyId
                               select new { member });
             int population = members.Count();
-            /*var familyCount = (from family in db.Families
-                               join survey in db.Surveys
-                               on family.SurveyId equals survey.Id
-                               where survey.Id == surveyId
-                               select new { family }).Count();*/
+            
 
             ViewBag.Population = population;
             ViewBag.FamilyCount = members.GroupBy(p=>p.member.FamilyId).Count();
