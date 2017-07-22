@@ -10,7 +10,7 @@ using ProsperitySurveyMVCApp.Models;
 
 namespace ProsperitySurveyMVCApp.Controllers
 {
-    [Authorize]
+    [ProsperitySurveyMVCApp.Helper.Authorize]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
