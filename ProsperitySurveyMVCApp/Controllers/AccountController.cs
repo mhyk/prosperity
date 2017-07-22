@@ -134,7 +134,7 @@ namespace ProsperitySurveyMVCApp.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
-        [AllowAnonymous
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
